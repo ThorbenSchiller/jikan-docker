@@ -1,0 +1,3 @@
+[submodule "jikan-rest"]
+	path = jikan-rest
+	url = https://github.com/jikan-me/jikan-rest.git
