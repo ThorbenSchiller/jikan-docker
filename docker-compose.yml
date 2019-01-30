@@ -3,28 +3,26 @@ services:
   app:
     build:
       context: .
-      dockerfile: docker/Dockerfile
+      dockerfile: Dockerfile
     image: jikan-rest-app:latest
     container_name: jikan_rest_app
     restart: always
     ports:
-      - 8081:80
-    volumes:
-      - ./jikan-rest:/app
+      - ${PORT}:80
   redis:
-    image: redis:5
+    image: redis:5-alpine
     container_name: jikan_rest_redis
     restart: always
+    volumes:
+      - "./docker/data/redis:/data"
   mysql:
     image: mysql:5.7
     container_name: jikan_rest_mysql
     restart: always
-    env_file:
-      - "./jikan-rest/.env"
     environment:
-      - MYSQL_DATABASE=${DB_DATABASE}
-      - MYSQL_ROOT_PASSWORD=${DB_PASSWORD}
-      - MYSQL_USER=${DB_USERNAME}
-      - MYSQL_PASSWORD=${DB_PASSWORD}
+      - MYSQL_DATABASE=homestead
+      - MYSQL_ROOT_PASSWORD=homestead
+      - MYSQL_USER=homestead
+      - MYSQL_PASSWORD=homestead
     volumes:
       - "./docker/data/db/mysql:/var/lib/mysql"
