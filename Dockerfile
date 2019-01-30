@@ -25,7 +25,7 @@ WORKDIR /app
 # install composer
 RUN curl --silent --show-error https://getcomposer.org/installer | php
 # install dependencies
-RUN ./composer.phar install
+RUN ./composer.phar install --no-ansi --no-suggest --no-dev --no-interaction --no-progress --no-scripts --optimize-autoloader
 # remove composer
 RUN rm composer.phar
 # Enable apache mods.
