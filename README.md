@@ -3,6 +3,6 @@
 1. Rename `.env.dist` to `.env` in jikan-rest submodule.
 1. Set database and redis host to docker services in `.env`:
 ```
-DB_CONNECTION=mysql
+DB_HOST=mysql=mysql
 REDIS_HOST=redis
 ```
