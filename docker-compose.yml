@@ -11,12 +11,20 @@ services:
       - ${PORT}:80
     links:
       - php
+  composer:
+    image: composer:latest
+    restart: 'no'
+    command: install
+    volumes:
+      - ./jikan-rest:/app
   php:
     image: php:7-fpm-alpine
     container_name: jikan_rest_app
     restart: always
     volumes:
       - ./jikan-rest:/app
+    env_file:
+      - ./jikan.env
   redis:
     image: redis:5-alpine
     container_name: jikan_rest_redis
