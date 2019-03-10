@@ -14,7 +14,7 @@ services:
   composer:
     image: composer:latest
     restart: 'no'
-    command: install
+    command: 'install --no-dev'
     volumes:
       - ./jikan-rest:/app
   php:
