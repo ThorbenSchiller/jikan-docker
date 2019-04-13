@@ -36,8 +36,8 @@ services:
     container_name: jikan_rest_mysql
     restart: always
     environment:
+      - MYSQL_RANDOM_ROOT_PASSWORD=1
       - MYSQL_DATABASE=homestead
-      - MYSQL_ROOT_PASSWORD=homestead
       - MYSQL_USER=homestead
       - MYSQL_PASSWORD=homestead
     volumes:
