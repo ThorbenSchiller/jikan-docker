@@ -2,39 +2,33 @@ version: '3'
 services:
   web:
     image: nginx:alpine
-    container_name: jikan_rest_web
-    restart: always
+    restart: unless-stopped
     volumes:
       - ./site.conf:/etc/nginx/conf.d/default.conf
       - ./jikan-rest:/app
     ports:
       - ${PORT}:80
-    links:
-      - php
   composer:
-    image: composer:latest
+    image: composer
     restart: 'no'
     command: 'install --no-dev'
     volumes:
       - ./jikan-rest:/app
   php:
     image: php:7-fpm-alpine
-    container_name: jikan_rest_app
-    restart: always
+    restart: unless-stopped
     volumes:
       - ./jikan-rest:/app
     env_file:
       - ./jikan.env
   redis:
     image: redis:5-alpine
-    container_name: jikan_rest_redis
-    restart: always
+    restart: unless-stopped
     volumes:
       - ./docker/data/redis:/data
   mysql:
     image: mysql:5.7
-    container_name: jikan_rest_mysql
-    restart: always
+    restart: unless-stopped
     environment:
       - MYSQL_RANDOM_ROOT_PASSWORD=1
       - MYSQL_DATABASE=homestead
