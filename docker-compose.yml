@@ -8,6 +8,8 @@ services:
       - ./jikan-rest:/app
     ports:
       - ${PORT}:80
+    depends_on:
+      - php
   composer:
     image: composer
     restart: 'no'
@@ -21,6 +23,8 @@ services:
       - ./jikan-rest:/app
     env_file:
       - ./jikan.env
+    depends_on:
+      - composer
   redis:
     image: redis:5-alpine
     restart: unless-stopped
