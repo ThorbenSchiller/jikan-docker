@@ -9,6 +9,7 @@ build:
   image: composer
   stage: build
   script:
+    - cd ./jikan-rest
     - composer install --optimize-autoloader --quiet
   cache:
     paths:
