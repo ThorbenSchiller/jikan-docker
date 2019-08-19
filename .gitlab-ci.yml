@@ -1,21 +1,9 @@
-cache:
-  paths:
-    - vendor/
-
 stages:
-  - prepare
   - build
   - deploy
 
-prepare:
-  image: docker:git
-  stage: prepare
-  script:
-    # checkout submodule
-    - git submodule init && git submodule update
-  cache:
-    paths:
-      - ./jikan-rest
+variables:
+  GIT_SUBMODULE_STRATEGY: recursive
 
 build:
   image: composer
