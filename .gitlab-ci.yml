@@ -8,7 +8,7 @@ stages:
   - deploy
 
 prepare:
-  image: git:alpine
+  image: alpine/git
   stage: prepare
   script:
     # checkout submodule
