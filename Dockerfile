@@ -44,4 +44,6 @@ ENV GITHUB_API=jikan-me/jika
 
 WORKDIR /app
 
+VOLUME /app
+
 COPY ./jikan-rest /app
