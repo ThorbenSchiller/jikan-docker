@@ -14,7 +14,7 @@ build:
   stage: build
   script:
     - cd ./jikan-rest
-    - composer install --optimize-autoloader --quiet
+    - composer install --no-dev --optimize-autoloader --quiet
 
 deploy docker image:
   stage: deploy
