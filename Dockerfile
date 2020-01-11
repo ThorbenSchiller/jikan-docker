@@ -1,16 +1,27 @@
-FROM php:7-fpm-alpine
+#
+# STAGE 1: composer
+#
+FROM composer:1.9.1 as composer
+
+WORKDIR /app
+
+COPY ./jikan-rest /app
+
+# Run composer to build dependencies in vendor folder
+RUN composer install --no-dev --no-scripts --no-suggest --no-interaction --prefer-dist --optimize-autoloader
+
+RUN composer require jikan-me/jikan:2.15.0 --update-no-dev --no-suggest --no-progress --prefer-dist
+
+# Generated optimized autoload files containing all classes from vendor folder and project itself
+RUN composer dump-autoload --no-dev --optimize --classmap-authoritative
+
+FROM php:7.3-apache
 
 ENV APP_ENV=production
 ENV APP_DEBUG=false
 ENV APP_KEY=jikan-rest
 ENV APP_TIMEZONE=UTC
-
-ENV DB_CONNECTION=mysql
-ENV DB_HOST=mysql
-ENV DB_PORT=3306
-ENV DB_DATABASE=jikan
-ENV DB_USERNAME=jikan
-ENV DB_PASSWORD=jikan
+ENV APP_URL=http://localhost
 
 ENV CACHE_DRIVER=redis
 ENV QUEUE_DRIVER=redis
@@ -21,6 +32,9 @@ ENV CACHE_META_EXPIRE=300
 ENV CACHE_USER_EXPIRE=300
 ENV CACHE_404_EXPIRE=604800
 ENV CACHE_SEARCH_EXPIRE=432000
+
+ENV MICROCACHING=true
+ENV MICROCACHING_EXPIRE=5
 
 ENV QUEUE_DELAY_PER_JOB=5
 
@@ -40,10 +54,15 @@ ENV REDIS_PORT=6379
 
 ENV GITHUB_REPORTING=false
 ENV GITHUB_REST=jikan-me/jikan-rest
-ENV GITHUB_API=jikan-me/jika
+ENV GITHUB_API=jikan-me/jikan
 
-WORKDIR /app
+ENV APACHE_DOCUMENT_ROOT /app/public
 
-VOLUME /app
+RUN a2enmod rewrite
 
-COPY ./jikan-rest /app
+COPY --from=composer /app /app
+
+RUN chown -R www-data:www-data /app
+
+RUN sed -ri -e 's!/var/www/html!${APACHE_DOCUMENT_ROOT}!g' /etc/apache2/sites-available/*.conf
+RUN sed -ri -e 's!/var/www/!${APACHE_DOCUMENT_ROOT}!g' /etc/apache2/apache2.conf /etc/apache2/conf-available/*.conf
