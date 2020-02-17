@@ -10,7 +10,7 @@ COPY ./jikan-rest /app
 # Run composer to build dependencies in vendor folder
 RUN composer install --no-dev --no-scripts --no-suggest --no-interaction --prefer-dist --optimize-autoloader
 
-RUN composer require jikan-me/jikan:2.15.0 --update-no-dev --no-suggest --no-progress --prefer-dist
+RUN composer require jikan-me/jikan:2.16.2 --update-no-dev --no-suggest --no-progress --prefer-dist
 
 # Generated optimized autoload files containing all classes from vendor folder and project itself
 RUN composer dump-autoload --no-dev --optimize --classmap-authoritative
