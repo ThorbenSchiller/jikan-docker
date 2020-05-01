@@ -17,6 +17,9 @@ build:
     - composer install --no-dev --optimize-autoloader --quiet
 
 deploy docker image:
+  variables:
+    DOCKER_DRIVER: overlay2
+    DOCKER_TLS_CERTDIR: "/certs"
   stage: deploy
   image: docker:git
   services:
@@ -29,6 +32,9 @@ deploy docker image:
     - master
 
 deploy tagged docker image:
+  variables:
+    DOCKER_DRIVER: overlay2
+    DOCKER_TLS_CERTDIR: "/certs"
   stage: deploy
   image: docker:git
   services:
