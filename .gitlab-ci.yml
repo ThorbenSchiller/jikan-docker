@@ -1,20 +1,8 @@
 stages:
-  - build
   - deploy
 
 variables:
   GIT_SUBMODULE_STRATEGY: recursive
-
-cache:
-  paths:
-    - ./jikan-rest/vendor
-
-build:
-  image: composer
-  stage: build
-  script:
-    - cd ./jikan-rest
-    - composer install --no-dev --optimize-autoloader --quiet
 
 deploy docker image:
   variables:
