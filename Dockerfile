@@ -1,6 +1,4 @@
-#
-# STAGE 1: composer
-#
+# Use a build container to resolve dependencies
 FROM composer:1.9.1 as composer
 
 WORKDIR /app
@@ -10,11 +8,14 @@ COPY ./jikan-rest /app
 # Run composer to build dependencies in vendor folder
 RUN composer install --no-dev --no-scripts --no-suggest --no-interaction --prefer-dist --optimize-autoloader
 
+# use specific version of jikan to get latest fixed.
+# current jikan-rest is incompatible with an external redis :/
 RUN composer require jikan-me/jikan:2.16.2 --update-no-dev --no-suggest --no-progress --prefer-dist
 
 # Generated optimized autoload files containing all classes from vendor folder and project itself
 RUN composer dump-autoload --no-dev --optimize --classmap-authoritative
 
+# begin of main image
 FROM php:7.3-apache
 
 ENV APP_ENV=production
