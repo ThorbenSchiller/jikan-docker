@@ -6,11 +6,11 @@ WORKDIR /app
 COPY ./jikan-rest /app
 
 # Run composer to build dependencies in vendor folder
-RUN composer install --no-dev --no-scripts --no-suggest --no-interaction --prefer-dist --optimize-autoloader
+RUN composer install --quiet --no-dev --no-scripts --no-suggest --no-interaction --prefer-dist --optimize-autoloader
 
 # use specific version of jikan to get latest fixed.
 # current jikan-rest is incompatible with an external redis :/
-RUN composer require jikan-me/jikan:2.16.2 --update-no-dev --no-suggest --no-progress --prefer-dist
+RUN composer require jikan-me/jikan:2.16.2 --quiet --update-no-dev --no-suggest --no-progress --prefer-dist
 
 # Generated optimized autoload files containing all classes from vendor folder and project itself
 RUN composer dump-autoload --no-dev --optimize --classmap-authoritative
