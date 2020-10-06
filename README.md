@@ -1,42 +1,28 @@
 # Jikan Docker
 
 This repository provides a configuration for building the
-[Jikan Rest](https://github.com/jikan-me/jikan-rest) Server as
-PHP FastCGI module.
+[Jikan Rest](https://github.com/jikan-me/jikan-rest) Server relying on
+PHP served by Apache2.
 
-As base image `php:7-fpm-alpine` is used.
+As base image `php:7.3-apache` is used.
 
-## About Volumes
+## Example
 
-As the application server (e.g. nginx) requires access to the files as well,
-the actual code will be stored in side a volume.
-To share the volume with the application server, use a named volume:
+[Jikan Rest](https://github.com/jikan-me/jikan-rest) currently relies on redis, so include a redis container as well:
 
 ```yaml
 version: '3'
 services:
   jikan-service:
-    image: nginx:alpine
-    restart: unless-stopped
-    volumes:
-      - ./conf:/etc/nginx/conf.d
-      - jikan-code:/app
-    depends_on:
-      - php
-  php:
     image: registry.gitlab.com/thorbens/anime/jikan-docker
     restart: unless-stopped
-    volumes:
-      - jikan-code:/app
-    depends_on:
-      - redis
-      - mysql
-  [...]
+  redis:
+    image: redis:5-alpine
+    restart: unless-stopped
 ```
 
-The drawback of this method is that, unless the volume is deleted, a new
-container image still uses the code.
-The volume needs to be deleted explicitly before the container is updated. 
+For further configuration, you may mount your own `.env` file.
+Take a look at the [.env.dist](https://github.com/jikan-me/jikan-rest/blob/master/.env.dist) for further information. 
 
 ## Build local
 
