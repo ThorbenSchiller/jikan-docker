@@ -1,7 +1,9 @@
 name: CI
 
 on:
-  [push]
+  push:
+  release:
+    types: [published]
 
 env:
   REGISTRY: ghcr.io
