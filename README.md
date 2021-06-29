@@ -1,5 +1,7 @@
 # Jikan Docker
 
+![Jikan Docker](./docs/logo.png)
+
 This repository provides a configuration for building the
 [Jikan Rest](https://github.com/jikan-me/jikan-rest) server relying on
 `php:7.3-apache` as base image.
