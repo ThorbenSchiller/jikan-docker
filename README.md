@@ -1,14 +1,13 @@
 # Jikan Docker
 
 This repository provides a configuration for building the
-[Jikan Rest](https://github.com/jikan-me/jikan-rest) Server relying on
-PHP served by Apache2.
-
-As base image `php:7.3-apache` is used.
+[Jikan Rest](https://github.com/jikan-me/jikan-rest) server relying on
+`php:7.3-apache` as base image.
 
 ## Example
 
-[Jikan Rest](https://github.com/jikan-me/jikan-rest) currently relies on redis, so include a redis container as well:
+[Jikan Rest](https://github.com/jikan-me/jikan-rest) relies currently on redis,
+so include a redis service as well:
 
 ```yaml
 version: '3'
@@ -26,8 +25,7 @@ Take a look at the [.env.dist](https://github.com/jikan-me/jikan-rest/blob/maste
 
 ## Build local
 
-Use the `docker-compose.yml` to setup a local instance with a Redis and
-MySQL instance:
+Use the `docker-compose.yml` to set up a local instance with a Redis instance:
 
 ```shell script
 docker-compose up
