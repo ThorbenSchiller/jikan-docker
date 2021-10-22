@@ -1,9 +1,13 @@
 # Use a build container to resolve dependencies
-FROM composer:1.9.1 as composer
+# 2.0.8 contains the last composer image with php 7.4
+FROM composer:2.0.8 as composer
 
 WORKDIR /app
 
 COPY ./jikan-rest /app
+
+# log file in jikan-rest is outdated...
+RUN composer update --lock
 
 # Run composer to build dependencies in vendor folder
 RUN composer install --quiet --no-dev --no-scripts --no-suggest --no-interaction --prefer-dist --optimize-autoloader
@@ -16,7 +20,7 @@ RUN composer require jikan-me/jikan:2.18.5 --quiet --update-no-dev --no-suggest 
 RUN composer dump-autoload --no-dev --optimize --classmap-authoritative
 
 # begin of main image
-FROM php:7.3-apache
+FROM php:7.4-apache
 
 ENV APP_ENV=production
 ENV APP_DEBUG=false
@@ -43,11 +47,6 @@ ENV THROTTLE=false
 ENV THROTTLE_DECAY_MINUTES=1
 ENV THROTTLE_MAX_PER_DECAY_MINUTES=30
 ENV THROTTLE_MAX_PER_SECOND=2
-
-ENV SLAVE_INSTANCE=false
-ENV SLAVE_KEY=null
-ENV SLAVE_CLIENT_IP_HEADER=X-Real-IP
-ENV SLAVE_KEY_HEADER=X-Master
 
 ENV REDIS_HOST=redis
 ENV REDIS_PASSWORD=null
