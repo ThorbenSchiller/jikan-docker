@@ -4,7 +4,7 @@
 
 This repository provides a configuration for building the
 [Jikan Rest](https://github.com/jikan-me/jikan-rest) server relying on
-`php:7.3-apache` as base image.
+`php:7.4-apache` as base image.
 
 ## Example
 
@@ -15,7 +15,7 @@ so include a redis service as well:
 version: '3'
 services:
   jikan-service:
-    image: registry.gitlab.com/thorbens/anime/jikan-docker
+    image: ghcr.io/thorbenschiller/jikan-docker
     restart: unless-stopped
   redis:
     image: redis:5-alpine
