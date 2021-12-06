@@ -29,7 +29,17 @@ Take a look at the [.env.dist](https://github.com/jikan-me/jikan-rest/blob/maste
 
 Use the `docker-compose.yml` to set up a local instance with a Redis instance:
 
-```shell script
+```shell
 docker-compose up
+```
+
+## Local Development
+
+[jikan-rest](https://github.com/jikan-me/jikan-rest) is linked as git submodule.
+To init a local submodule, execute the following commands:
+
+```shell
+git submodule init
+git submodule update
 ```
 
